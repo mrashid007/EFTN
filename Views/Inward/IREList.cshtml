@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "IREList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>IREList</h2>
+
+<div class="panel panel-primary list-panel" id="list-panel" style="min-height:150px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+                <font style="font-weight:bold;font-size: 14px;"> Currency</font>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("CCYCD", new SelectList(ViewBag.CCYList, "CCYCD", "CCYName"), new { @class = "select-css" })
+            </div>
+            <div class="col-md-1">
+                <font style="font-weight:bold;font-size: 14px;">Type</font>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("TransTypeID", new SelectList(ViewBag.TrnsTypeList, "Value", "Text"), new { @class = "select-css" })
+            </div>
+            <div class="col-md-1">
+                <font style="font-weight:bold;font-size: 14px;">Session</font>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("SessionID", new SelectList(ViewBag.SessionList, "Value", "Text"), new { @class = "select-css" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary" type="submit" title="Show" name="btnShow">Show</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*<div class="row">
+    @Html.ActionLink("Start All ", "StartAllInward", "Inward", new { area = "" }, new { @class = "navbar-brand" })
+</div>*@
+<div class="panel panel-primary list-panel" id="list-panel" style="min-height:400px;">
+    <div class="panel-body">
+
+        @{
+            Html.RenderAction("_ShowInwardReturnList", "Inward");
+        }
+
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblInwardReturnTransactionList').DataTable();
+    });
+</script>

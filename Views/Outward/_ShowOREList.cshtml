@@ -1,0 +1,86 @@
+﻿@model IEnumerable<EFTN.Models.ORETransactionItem>
+<script>
+    $(function () {
+        $("#chkAll").click(function () {
+            if ($('#chkAll').is(":checked")) {
+                $('.ICEChk').prop('checked', true);
+            }
+            else {
+                $('.ICEChk').prop('checked', false)
+
+            }
+        });
+    });
+</script>
+<table class="CSSTableGenerator">
+    <tr>
+        <td>
+            <input type="checkbox" id="chkAll" value="Select" title="Select" /><label>Select All</label>
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.BatchNumber)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.SECC)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.EffectiveEntryDate)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.EntryDesc)
+        </td>
+        @*<td>
+            TotalTransactions
+        </td>*@
+        <td>
+            Total
+        </td>
+        <td>
+            CCY
+        </td>
+        <td>
+            ServiceClassCode
+        </td>        
+
+        <td>
+           ORE XML
+        </td>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <input type="checkbox" name="ICEChk" class="ICEChk" id="chk_@item.EDRID" value="@item.EDRID" title="Select" /><label for="chk_@item.EDRID">Select</label>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BatchNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SECC)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EffectiveEntryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntryDesc)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.TotalTransactions)
+            </td>*@
+           <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceClassCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CCY)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.XMLFileName)
+            </td>
+        </tr>
+    }
+
+</table>

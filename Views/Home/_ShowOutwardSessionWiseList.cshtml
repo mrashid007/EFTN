@@ -1,0 +1,80 @@
+﻿@model IEnumerable<EFTN.Models.OutwardSessionWiseList>
+<div class="panel-heading">
+    <div style="text-align:center;font-weight:bolder;border-bottom:dashed;">Outward Session Wise List</div>
+    <div>
+        <table id="tblOCESessionWiseListHeader" style="width:100%; ">
+            <tr>
+                @*<td style="width:10%;">
+                    SessionID
+                </td>*@
+                <td style="width:40%;text-align:center;">
+                    Session
+                </td>
+                <td style="width:15%;text-align:center;">
+                    Maker
+                </td>
+                <td style="width:15%;text-align:center;">
+                    Checker
+                </td>
+                <td style="width:15%;text-align:center;">
+                    Admin
+                </td>
+                <td style="width:15%;text-align:center;">
+                    ORE
+                </td>
+            </tr>        
+        </table>
+    </div>
+</div>
+<div class="panel-body" style="overflow-y:scroll;height:100px;">
+    <table id="tblOutwardSessionWiseList" class="table table-striped table-bordered" style="width:100%">
+
+        @foreach (var item in Model)
+            {
+            <tr>
+                @*<td style="width:10%;">
+                    @Html.DisplayFor(modelItem => item.SessionID)
+                </td>*@
+                <td style="width:40%;">
+                    @Html.ActionLink(item.SessionDesc, "SessionWiseOutwardList", "Outward", new { SessionID = item.SessionID }, null)
+                </td>
+                <td style="width:15%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.MakerCnt)
+                </td>
+                <td style="width:15%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.CheckerCnt)
+                </td>
+                <td style="width:15%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.AdminCnt)
+                </td>
+                <td style="width:15%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.IRECnt)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+<div class="panel-footer">
+    <table id="tblOCESessionWiseListFooter" style="width:100%; ">
+        <tr>
+            <th style="width:40%;text-align:center;">
+                <font style="font-weight:bold;color:green;">Total</font>
+            </th>
+            <th style="width:15%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.MakerCnt)</font>
+           </th>
+            <th style="width:15%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.CheckerCnt)</font>
+            </th>
+            <th style="width:15%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.AdminCnt)</font>
+            </th>
+            <th style="width:15%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.IRECnt)</font>
+            </th>
+        </tr>
+    </table>
+
+</div>

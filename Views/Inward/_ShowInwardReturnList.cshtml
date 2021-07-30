@@ -1,0 +1,85 @@
+﻿@model IEnumerable<EFTN.Models.InwardReturnTransaction>
+
+<table id="tblInwardReturnTransactionList" class="table table-striped table-bordered" style="width:100%">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EDRID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OriginalTraceNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TraceNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SenderAccountNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EffectiveEntryDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SettlementDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceiverAccountNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReturnReason)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CCY)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EDRID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OriginalTraceNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TraceNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SenderAccountNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EffectiveEntryDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SettlementDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceiverAccountNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SessionID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnReason)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CCY)
+            </td>
+        </tr>
+    }
+
+</table>

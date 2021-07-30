@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "DashboardMaker";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Maker Dashboard</h2>
+<div class="row" style="padding-top:10px;">
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <div class="panel panel-primary list-panel" id="list-panel" style="min-height:120px;">
+                <div class="panel-body">
+                    @Html.ActionLink("Outward ", "OutwardList", "Outward", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+            </div>
+        </div>
+        @*<div class="col-md-3">
+            <div class="panel panel-primary list-panel" id="list-panel" style="min-height:120px;">                
+                <div class="panel-body">
+                    @Html.ActionLink("Outward Return(ORE)", "OREList", "Outward", new { area = "" }, new { @class = "navbar-brand" })
+               </div>
+            </div>
+        </div>*@
+        <div class="col-md-3">
+            <div class="panel panel-primary list-panel" id="list-panel" style="min-height:120px;">
+                <div class="panel-body">
+                    @Html.ActionLink("Inward ", "InwardList", "Inward", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+            </div>
+        </div>
+        @*<div class="col-md-3">
+            <div class="panel panel-primary list-panel" id="list-panel" style="min-height:120px;">
+                <div class="panel-body">
+                    @Html.ActionLink("Inward Return(IRE)", "IREList", "Inward", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+            </div>
+        </div>*@
+    </div>
+</div>
+<div class="row" style="padding-top:10px;">
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <div class="panel panel-primary list-panel" id="list-panel" style="min-height:120px;">
+                <div class="panel-body">
+                    @Html.ActionLink("Net Settlement", "NetSettlement", "Report", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary list-panel" id="list-panel" style="min-height:120px;">
+                <div class="panel-body">
+                    @Html.ActionLink("Detail Settlement", "DetailSettlement", "Report", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary list-panel" id="list-panel" style="min-height:120px;">
+                <div class="panel-body">
+                    @Html.ActionLink("CBS Report", "CBSDetailReport", "Report", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary list-panel" id="list-panel" style="min-height:120px;">
+                <div class="panel-body">
+                    @Html.ActionLink("Other Reports", "CBSDetailReport", "Report", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

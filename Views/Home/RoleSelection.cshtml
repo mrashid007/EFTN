@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "RoleSelection";
+    Layout = "~/Views/Shared/_LayoutWithoutMenu.cshtml";
+}
+<style>
+    .body-content {
+        padding-top: 0px;
+    }
+</style>
+<h2>Role Selection</h2>
+@using (Html.BeginForm("RoleSelection", "Home", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"> <font style="font-weight:bold"> Select Your Role</font></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                @Html.DropDownList("RoleCD", new SelectList(ViewBag.RoleList, "RoleCD", "RoleName"), new { @class = "select-css" })
+            </div>
+            <button class="btn btn-primary" type="submit" title="Procced" name="btnSelectRole">Procced</button>
+        </div>
+    </div>
+}

@@ -1,0 +1,35 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<html>
+<head>
+    <title>Login</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Login.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="loginPanel">
+        <div class="imgcontainer">
+            <img src="~/Images/img_avatar3.png" alt="Avatar" class="avatar">
+        </div>
+        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+        {
+            <div class="container">
+                <label for="uname"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="username" required>
+
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="password" required>
+                <button type="submit" title="Login" name="btnLogin">Login</button>
+            </div>
+            <label>@ViewBag.Message</label>
+
+        }
+    </div>
+</body>
+</html>

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<EFTN.Models.InwardCCYWiseList>
+<div class="panel-heading">
+    <div style="text-align:center;font-weight:bolder;border-bottom:dashed;">Inward CCY Wise List</div>
+    <div>
+        <table id="tblICECCYWiseListHeader" style="width:100%;">
+            <tr>
+                <th style="width:50%;text-align:center;">
+                    CCY
+                </th>
+                <th style="width:10%;text-align:center;">
+                    Maker
+                </th>
+                <th style="width:10%;text-align:center;">
+                    Checker
+                </th>
+                <th style="width:10%;text-align:center;">
+                    Admin
+                </th>
+                <th style="width:10%;text-align:center;">
+                    Approved
+                </th>
+                <th style="width:10%;text-align:center;">
+                    ORE
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="panel-body" style="overflow-y:scroll;height:200px;">
+
+    <table id="tblICECCYWiseList" class="table table-striped table-bordered" style="width:100%">
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="width:50%;text-align:center;">
+                    @Html.ActionLink(item.CCY, "CCYWiseInwardList", "Inward", new { CCY = item.CCY }, null)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.MakerCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.CheckerCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.AdminCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.ApprovedCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.ORECnt)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<div class="panel-footer">
+    <table id="tblICECCYWiseListFooter" style="width:100%; ">
+        <tr>
+            <th style="width:50%;text-align:center;">
+                <font style="font-weight:bold;color:green;">Total</font>
+            </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.MakerCnt)</font>
+            </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.CheckerCnt)</font>
+           </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.AdminCnt)</font>
+           </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.ApprovedCnt)</font>
+            </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.ORECnt)</font>
+            </th>
+          </tr>
+    </table>
+
+</div>
+

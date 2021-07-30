@@ -1,0 +1,115 @@
+﻿@model IEnumerable<EFTN.Models.OutwardBranchWiseList>
+<div class="panel-heading">
+    <div style="text-align:center;font-weight:bolder;border-bottom:dashed;">Outward Branch Wise List</div>
+    <div>
+        <table id="tblOCEBranchWiseListHeader" style="width:100%">
+            <tr>
+                <th style="width:10%;text-align:center;">
+                    BranchCD
+                    @*@Html.DisplayNameFor(model => model.BranchCD)*@
+                </th>
+                <th style="width:30%;text-align:center;">
+                    Branch Name
+                    @*@Html.DisplayNameFor(model => model.BranchName)*@
+                </th>
+                <th style="width:10%;text-align:center;">
+                    Maker@* @Html.DisplayNameFor(model => model.MakerCnt)*@
+                </th>
+                <th style="width:10%;text-align:center;">
+                    Checker@* @Html.DisplayNameFor(model => model.CheckerCnt)*@
+                </th>
+                <th style="width:10%;text-align:center;">
+                    Admin@* @Html.DisplayNameFor(model => model.AdminCnt)*@
+                </th>
+                <th style="width:10%;text-align:center;">
+                    OCE@* @Html.DisplayNameFor(model => model.AdminCnt)*@
+                </th>
+                <th style="width:10%;text-align:center;">
+                    Total@* @Html.DisplayNameFor(model => model.ORECnt)*@
+                </th>
+                <th style="width:10%;text-align:center;">
+                    IRE@* @Html.DisplayNameFor(model => model.ORECnt)*@
+                </th>
+            </tr>
+        </table>
+    </div>
+
+</div>
+<div class="panel-body" style="overflow-y:scroll;height:200px;">
+
+    <table id="tblOCEBranchWiseList" class="table table-striped table-bordered" style="width:100%">
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.BranchCD)
+                </td>
+                <td style="width:30%;">
+                    @Html.ActionLink(item.BranchName, "BranchWiseOutwardList", "Outward", new { BranchCD = item.BranchCD }, null)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.MakerCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.CheckerCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.AdminCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.OCECreatedCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.IRECnt)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div class="panel-footer">
+    <table id="tblOCESessionWiseListFooter" style="width:100%;">
+        <tr>
+            <th colspan="2" style="width:40%;text-align:center;">
+                <font style="font-weight:bold;color:green;">Total</font>
+            </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.MakerCnt)</font>
+           </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.CheckerCnt)</font>
+           </th>
+            @if (@Model.Sum(x => x.AdminCnt) > 0)
+            {
+            <th style="width:10%;text-align:center; background-color:yellow">
+                <font style="font-weight:bold !important;color:black !important; font-size:12px;">
+                @Html.ActionLink(@Model.Sum(x => x.AdminCnt).ToString(), "GenerateOCEXML", "Outward")
+                </font>
+            </th>
+            }
+            else
+            {
+                <th style="width:10%;text-align:center;">
+                    <font style="font-weight:bold;color:yellow !important;">
+                        0
+                    </font>
+                </th>
+            }
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.OCECreatedCnt)</font>
+            </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.Total)</font>
+            </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.IRECnt)</font>
+            </th>
+        </tr>
+    </table>
+
+</div>
+

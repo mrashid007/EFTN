@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "StartAllInwardChecker";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <div class="row" style="padding-top:10px; text-align:center">
+        <h4> Inward Transaction Detail</h4>
+    </div>
+    <hr />
+    <div class="row" style="padding-top:10px;">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="panel panel-primary list-panel" id="list-panel" style="min-height:300px;">
+                    <div class="panel-body">
+                        @{
+                            Html.RenderAction("_ShowInwardBBInfoDetail", "Inward");
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-primary list-panel" id="list-panel" style="min-height:300px;">
+                    <div class="panel-body">
+                        @{
+                            Html.RenderAction("_ShowInwardCBSInfoDetail", "Inward");
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-3" style="text-align:right;">
+                <button class="btn btn-primary" type="submit" title="Save And Exit" name="btnSelectRole">Save And <font color="Red" style="font-weight:bold;">Exit</font></button>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-1"><font color="Green" style="font-weight:bold;">Remarks</font></div>
+                <div class="col-md-11">
+                    <textarea type="text" style="max-width:100%;" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary" type="submit" title="Save And Next" name="btnSelectRole">Save And Next</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+

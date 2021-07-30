@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    @*<div class="container" style="margin-left: 0px !important;margin-right: 0px !important; height:75px; width:100%;max-width:1300px;">*@
+
+    @*</div>*@
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        @*<div class="navbar-header" style="margin-left:0px;color:whitesmoke;margin-right:0px;text-align:center; margin-bottom:0px;width:100%;">
+            <h2>FLORA EFTN SYSTEM</h2>
+       <a href="@Url.Action("Default", "Home")" class="elements" style="text-decoration:none;">
+            </a>
+        </div>*@
+            <div class="container">
+                @*<div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>*@
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li style="background-color: honeydew;">@Html.ActionLink("Logout", "Login", "Home")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <div class="container body-content">
+        <div style="min-height:400px; padding-top:10px;">
+            @RenderBody()
+        </div>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Flora Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

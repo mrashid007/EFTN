@@ -1,0 +1,145 @@
+﻿
+@{
+    ViewBag.Title = "OutwardList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript" >
+$(function () {
+    //$('form').submit(function () {
+    $("#btnShow").click(function () {
+        //alert("Ok");
+
+        var BankID = $('#BankID').val();
+        var TransTypeID = $('#TransTypeID').val();
+        var BranchID = $('#BranchID').val();
+        var CCYCD = $('#CCYCD').val();
+        var SessionID = $('#SessionID').val();
+
+        $.ajax({
+            url: "OutwardListFiltered",
+            type: "get",
+            data: { BankID: BankID, TransTypeID: TransTypeID, BranchID: BranchID, CCYCD: CCYCD, SessionID: SessionID }, //$("form").serialize(), //if you need to post Model data, use this
+            success: function (result) {
+                $("#DivShowOutwardList").html(result);
+            }
+        });
+  });
+ });
+</script>
+<h2>Outward List</h2>
+
+<div class="panel panel-primary list-panel" id="list-panel" style="min-height:150px;">
+
+@*@using (Html.BeginForm())*@
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-1">
+                <font style="font-weight:bold;font-size: 14px;"> Bank</font>
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownList("BankID", new SelectList(ViewBag.BankList, "BankCD", "BankName"), new { @class = "select-css" })
+            </div>
+            <div class="col-md-1">
+                <font style="font-weight:bold;font-size: 14px;">Type</font>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("TransTypeID", new SelectList(ViewBag.TrnsTypeList, "Value", "Text"), new { @class = "select-css" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <font style="font-weight:bold;font-size: 14px;">Branch</font>
+            </div>
+            <div class="col-md-4">
+                @Html.DropDownList("BranchID", new SelectList(ViewBag.BranchList, "BranchCD", "BranchName"), new { @class = "select-css" })
+            </div>
+            <div class="col-md-1">
+                <font style="font-weight:bold;font-size: 14px;"> Currency</font>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("CCYCD", new SelectList(ViewBag.CCYList, "CCYCD", "CCYName"), new { @class = "select-css" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+                <font style="font-weight:bold;font-size: 14px;">Session</font>
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownList("SessionID", new SelectList(ViewBag.SessionList, "Value", "Text"), new { @class = "select-css" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary" type="button" title="Show" name="btnShow" id="btnShow">Show</button>
+            </div>
+        </div>
+    </div>
+}
+</div>
+<div class="row" align="center" style="text-align: center;">
+    @Html.ActionLink("Create Transaction ", "CreateOutward", "Outward", new { area = "" }, new { @class = "navbar-brand" })
+</div>
+<div class="row" align="center" style="text-align: center;">
+</div>
+
+<div class="panel panel-primary list-panel" id="list-panel" style="height:400px;overflow:scroll;">
+    <div class="panel-body" id="DivShowOutwardList">
+        @{
+            Html.RenderAction("_ShowOutwardList", "Outward");
+        }
+    </div>
+
+</div>
+<div class="panel panel-primary list-panel" id="list-panel" style="min-height:50px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-2">
+                    <button class="btn btn-primary" title="Send To Checker" onclick="Save();" name="btnSendToChecker">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //$(document).ready(function () {
+    //    $('#tblOutwardTransactionList').DataTable();
+    //});
+    function Save() {
+        var datalist = [];
+        $.each($("input[name='OCEChk']:checked"), function () {
+            datalist.push($(this).val());
+        });
+
+        $.ajax({
+            url: '@Url.Action("SendToChecker", "Outward")',
+            dataType: "json",
+            type: "POST",
+            cache: false,
+            data: { edrList: datalist},
+            success: function (result) {
+                if (result.IsSuccess) {
+                    toastr.success(result.Message);
+                    var delayInMilliseconds = 2000; //2 second
+                    setTimeout(function () {
+                        location.reload();
+                    }, delayInMilliseconds);
+                }
+                else
+                    toastr.error(result.Message);
+                },
+            error: function (xhr) {
+                toastr.warning(xhr.responseText);
+            }
+        });
+    }
+</script>
+<style>
+    .navbar-brand {
+        float: none;
+        text-decoration:underline;
+    }
+</style>

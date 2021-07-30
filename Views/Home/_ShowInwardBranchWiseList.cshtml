@@ -1,0 +1,93 @@
+﻿@model IEnumerable<EFTN.Models.InwardBranchWiseList>
+<div class="panel-heading">
+    <div style="text-align:center;font-weight:bolder; border-bottom:dashed;">Inward Branch Wise List</div>
+    <div>
+        <table id="tblICEBranchWiseListHeader" style="width:100%;">
+            <tr>
+                <th style="width:10%;text-align:center;">
+                    BranchCD
+                    @*@Html.DisplayNameFor(model => model.BranchCD)*@
+                </th>
+                <th style="width:40%;text-align:center;">
+                    Branch Name
+                    @*@Html.DisplayNameFor(model => model.BranchName)*@
+                </th>
+                <th style="width:10%;text-align:center;">
+                   Maker@* @Html.DisplayNameFor(model => model.MakerCnt)*@
+                </th>
+                <th style="width:10%;text-align:center;">
+                   Checker@* @Html.DisplayNameFor(model => model.CheckerCnt)*@
+                </th>
+                <th style="width:10%;text-align:center;">
+                    Approved@* @Html.DisplayNameFor(model => model.AdminCnt)*@
+                </th>
+                <th style="width:10%;text-align:center;">
+                   Admin@* @Html.DisplayNameFor(model => model.AdminCnt)*@
+                </th>
+                <th style="width:10%;text-align:center;">
+                   ORE@* @Html.DisplayNameFor(model => model.ORECnt)*@
+                </th>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="panel-body" style="overflow-y:scroll;height:200px;">
+
+    <table id="tblICEBranchWiseList" class="table table-striped table-bordered" style="width:100%">
+
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="width:10%;">
+                    @Html.DisplayFor(modelItem => item.BranchCD)
+                </td>
+                <td style="width:40%;">
+                    @Html.ActionLink(item.BranchName, "BranchWiseInwardList", "Inward", new { BranchCD = item.BranchCD }, null)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.MakerCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.CheckerCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.ApprovedCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.AdminCnt)
+                </td>
+                <td style="width:10%;text-align:center;">
+                    @Html.DisplayFor(modelItem => item.ORECnt)
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div class="panel-footer">
+    <table id="tblICEBranchWiseListFooter" style="width:100%; ">
+        <tr>
+            <th colspan="2" style="width:50%;text-align:center;">
+                <font style="font-weight:bold;color:green;">Total</font>
+            </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.MakerCnt)</font>
+            </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.CheckerCnt)</font>
+            </th>
+            <th style="width:10%;text-align:center;">
+                <font style="font-weight:bold;color:green;">@Model.Sum(x => x.ApprovedCnt)</font>
+            </th>
+            <th style="width:10%;text-align:center;">
+                @Html.ActionLink(@Model.Sum(x => x.AdminCnt).ToString(), "OREList", "Outward")
+            </th>
+            <th style="width:10%;text-align:center;">                
+                <font style="font-weight:bold;color:green;">
+                    <font style="font-weight:bold;color:green;">@Model.Sum(x => x.ORECnt)</font>
+                </font>
+            </th>
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,76 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblOutwardSessionWiseList').DataTable();
+        $('#tblInwardSessionWiseList').DataTable();
+        $('#tblOCECCYWiseList').DataTable();
+        $('#tblICECCYWiseList').DataTable();
+    });
+</script>
+<div style="text-align:center;color:green;">
+    <h2>Admin Dashboard</h2>
+</div>
+<div class="row" style="padding-top:10px;">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="panel panel-primary list-panel" id="list-panel" style="height:293px;">
+                @{
+                    Html.RenderAction("_ShowOutwardBranchWiseList", "Home");
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary list-panel" id="list-panel" style="height:293px;">
+
+
+                    @{
+                        Html.RenderAction("_ShowInwardBranchWiseList", "Home");
+                    }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="padding-top:10px;">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="panel panel-primary list-panel" id="list-panel" style="height:193px;">
+                @{
+                    Html.RenderAction("_ShowOutwardSessionWiseList", "Home");
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary list-panel" id="list-panel" style="height:193px;">
+
+                    @{
+                        Html.RenderAction("_ShowInwardSessionWiseList", "Home");
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="panel panel-primary list-panel" id="list-panel" style="height:293px;">
+
+                    @{
+                        Html.RenderAction("_ShowOutwardCCYWiseList", "Home");
+                    }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary list-panel" id="list-panel" style="height:293px;">
+                    @{
+                        Html.RenderAction("_ShowInwardCCYWiseList", "Home");
+                    }
+
+            </div>
+        </div>
+    </div>
+
+</div>
+

@@ -1,0 +1,97 @@
+﻿@model IEnumerable<EFTN.Models.OutwardTransaction>
+
+@{
+    ViewBag.Title = "GenerateOCEXML";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>GenerateOCEXML</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EntryDesc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceiverName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceivingBankAccountNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceiverID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceivingBankName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BranchName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CCY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OurBankAccountNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmountInWord)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentInformation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountType)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EntryDesc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceiverName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceivingBankAccountNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceiverID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceivingBankName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BranchName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CCY)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OurBankAccountNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AmountInWord)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentInformation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AccountType)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

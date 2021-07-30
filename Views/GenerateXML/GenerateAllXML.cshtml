@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "GenerateAllXML";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Generate XML</h2>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tblDishonorSentList').DataTable();
+        $('#tblReturnSentList').DataTable();
+        $('#tblTransactionSentList').DataTable();
+        $('#tblRNOCSentList').DataTable();
+    });
+</script>
+<div class="row" style="padding-top:10px;">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="panel panel-primary list-panel" id="list-panel" style="overflow:scroll;min-height:200px;">
+                <div class="panel-body">
+                    @{
+                        Html.RenderAction("_ShowTransactionSentList", "GenerateXML");
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary list-panel" id="list-panel" style="overflow:scroll;min-height:200px;">
+                <div class="panel-body">
+                    @{
+                        Html.RenderAction("_ShowReturnSentList", "GenerateXML");
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="panel panel-primary list-panel" id="list-panel" style="overflow:scroll;min-height:200px;">
+                <div class="panel-body">
+                    @{
+                        Html.RenderAction("_ShowDishonorSentList", "GenerateXML");
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-primary list-panel" id="list-panel" style="overflow:scroll;min-height:200px;">
+                <div class="panel-body">
+                    @{
+                        Html.RenderAction("_ShowRNOCSentList", "GenerateXML");
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

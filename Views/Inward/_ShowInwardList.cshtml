@@ -1,0 +1,91 @@
+﻿@model IEnumerable<EFTN.Models.InwardTransactionList>
+
+<table id="tblInwardTransactionList" class="table table-striped table-bordered" style="width:100%">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EDRID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankName)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.ReceivingBranchCD)
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.ReceivingBranchName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceivingRoutingNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SettlementDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.ReceivingName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DFIAccountNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CBSAccountNo)
+            </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.CCY)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.EntryDateTransactionReceived)
+            </th>*@
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EDRID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BankName)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.ReceivingBranchCD)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivingBranchName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivingRoutingNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SettlementDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SessionID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.ReceivingName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DFIAccountNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CBSAccountNo)
+                </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.CCY)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.EntryDateTransactionReceived)
+                </td>*@
+        </tr>
+    }
+
+</table>

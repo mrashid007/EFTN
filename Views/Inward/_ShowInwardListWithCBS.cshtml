@@ -1,0 +1,190 @@
+﻿@model IEnumerable<EFTN.Models.InwardTransactionListWithCBS>
+<style>
+    table tr td { font-size: 11px; }
+    input[type=text]{
+        width:100px;
+    }
+</style>
+<script>
+    $(function () {
+        $("#chkAll").click(function () {
+            if ($('#chkAll').is(":checked")) {
+                $('.ICEChk').prop('checked', true);
+            }
+            else {
+                //alert("Unchecked");
+                $('.ICEChk').prop('checked', false)
+
+            }
+        });
+    });
+
+    function UpdateDFIAccountNo(value)
+    {
+        var items = value.split(',');
+        var edrid = items[0];
+        var dfiAccount = items[1];
+        alert(edrid);
+        alert(dfiAccount);
+    }
+    function ReloadCBSInformation(param)
+    {
+        var items = param.split(',');
+        var edrid = items[0];
+        var accountNo = items[1];
+        var dfiAccountNo = items[2];
+
+        var str = 'Balance_' + edrid + accountNo;
+
+        var divval = $('#'+str).text();
+
+        $.ajax({
+            url: '@Url.Action("GetCBSAccountInfo", "CBSInformation")',
+            dataType: "json",
+            type: "GET",
+            cache: false,
+            data: { AccountNo: dfiAccountNo},
+            success: function (data) {
+
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+
+        //alert(divval);
+        //$('#' + str).text("777777777777");
+        //alert("Div Id=Name_" + edrid + accountNo);
+        //alert("Div Id=Name_" + edrid + accountNo);
+        //alert("Div Id=Balance_" + edrid + accountNo);
+        //alert("Div Id=Ins_" + edrid + accountNo);
+
+    }
+</script>
+<div>
+     <span style="font-size:15px;">Total Count:</span>
+    @if (Model != null)
+    {
+        if (Model.Count() > 0)
+        {
+            <span class="right-plus main-plus" style="font-size:20px;"><i class="fa fa-plus-square-o">@Model.Count()</i></span>
+        }
+    }
+</div>
+<table class="table table-striped table-bordered">
+    <tr style="background-color:#428bca !important">
+        <th>
+            <input type="checkbox" id="chkAll" value="Select" title="Select" /><label>Select All</label>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BankName)
+        </th>
+        <th>
+         Branch
+        </th>
+        <th>
+          Branch Name
+        </th>
+        <th>
+          Routing Number 
+        </th>
+        <th>
+            Settlment Date @* @Html.DisplayNameFor(model => model.SettlementDate)*@
+        </th>
+        <th>
+            Sess  @*@Html.DisplayNameFor(model => model.SessionID)*@
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DFIAccountNo)
+        </th>
+        <th>
+            Checker Comments
+        </th>        
+        <th>
+            Information 
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <input type="checkbox" name="ICEChk" class="ICEChk" id="chk_@item.EDRID" value="@item.EDRID" title="Select"/><label for="chk_@item.EDRID">Select</label>
+                <input type="button" class="btn btn-success"  value="Update" title="Update" onclick="UpdateDFIAccountNo('@item.EDRID,@item.DFIAccountNo')" />
+
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.BankName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivingBranchCD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReceivingBranchName)
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => item.ReceivingRoutingNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SettlementDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SessionID)
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => item.DFIAccountNo)
+            </td>
+            <td style="color:red;">
+                @Html.DisplayFor(modelItem => item.CheckerRemarks)
+            </td>
+            <td>
+                <table class="CSSTableGenerator">
+                    <tr><td>Name</td><td>Account</td><td>Amount</td><td>Special Instruction</td></tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReceivingName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DFIAccountNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <font color="red"> CBS Information 
+                                <input type="button" style="background-color:Highlight"  value="Check CBS" title="Check CBS" onclick="ReloadCBSInformation('@item.EDRID,@item.CBSVerificationInfo.AccountNo,@item.DFIAccountNo')" />
+                            </font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="Name_@item.EDRID@item.CBSVerificationInfo.AccountNo">
+                                @Html.DisplayFor(modelItem => item.CBSVerificationInfo.AccountName)
+                            </div>
+                        </td>
+                        <td>
+                            <div id="@item.CBSVerificationInfo.AccountNo">
+                                @Html.DisplayFor(modelItem => item.CBSVerificationInfo.AccountNo)
+                            </div>
+                        </td>
+                        <td>
+                            <div id="Balance_@item.EDRID@item.CBSVerificationInfo.AccountNo">
+                                @Html.DisplayFor(modelItem => item.CBSVerificationInfo.Balance)
+                            </div>
+                        </td>
+                        <td>
+                            <div id="Ins_@item.EDRID@item.CBSVerificationInfo.AccountNo">
+                                @Html.DisplayFor(modelItem => item.CBSVerificationInfo.SpecialInstuction)
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    }
+
+</table>

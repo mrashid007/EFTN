@@ -1,0 +1,435 @@
+﻿@model EFTN.Models.OutwardTransaction
+
+@{
+    ViewBag.Title = "CreateOutward";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Transaction</h2>
+<script type="text/javascript">
+    $(function () {
+
+        $("#ReceivingBankAccountNo").prop('maxlength', '6');
+
+        $('#ReceivingBankAccountNo').on('keyup', function () {
+            limitText(this, 17)
+        });
+        $("#BankID").change(function () {
+            LoadBankBranch($('option:selected', this).val());
+        });
+        $('#PaymentInformation').keyup(function (e) {
+            var tval = $('#PaymentInformation').val(),
+                tlength = tval.length,
+                set = 79,
+                remain = parseInt(set - tlength);
+            $('#txtRemain').text("Remaining:" + remain);
+            $('#PaymentInformation').val($('#PaymentInformation').val().toUpperCase());
+            if (remain <= 0 && e.which !== 0 && e.charCode !== 0) {
+                $('#PaymentInformation').val((tval).substring(0, tlength - 1));
+                return false;
+            }
+        });
+
+        $('#ReceivingBankAccountNo').keyup(function (e) {
+            var tval = $('#ReceivingBankAccountNo').val(),
+                tlength = tval.length,
+                set = 17,
+                remain = parseInt(set - tlength);
+            $('#ReceivingBankAccountNo').val($('#ReceivingBankAccountNo').val().toUpperCase());
+            if (remain <= 0 && e.which !== 0 && e.charCode !== 0) {
+                $('#ReceivingBankAccountNo').val((tval).substring(0, tlength - 1));
+                return false;
+            }
+        });
+        $('#OurBankAccountNo').keyup(function (e) {
+            var tval = $('#OurBankAccountNo').val(),
+                tlength = tval.length,
+                set = 15,
+                remain = parseInt(set - tlength);
+
+            $('#OurBankAccountNo').val($('#OurBankAccountNo').val().toUpperCase());
+
+            if (remain <= 0 && e.which !== 0 && e.charCode !== 0) {
+                $('#OurBankAccountNo').val((tval).substring(0, tlength - 1));
+                return false;
+            }
+        });
+        $('#OurBankAccountNo').on('keyup', function () {
+            limitText(this, 15)
+        });
+
+        $('#EntryDesc').keyup(function (e) {
+            $('#EntryDesc').val($('#EntryDesc').val().toUpperCase());
+        });
+        $('#ReceiverName').keyup(function (e) {
+            $('#ReceiverName').val($('#ReceiverName').val().toUpperCase());
+        });
+        $('#ReceiverID').keyup(function (e) {
+            $('#ReceiverID').val($('#ReceiverID').val().toUpperCase());
+        });
+
+
+        $("#btnSave").click(function () {
+            var PaymentTypeID = $('#PaymentTypeID').val();
+            var BankID = $('#BankID').val();
+            if (BankID =="") {
+                toastr.warning("Please Select A Bank");
+                return;
+            }
+            var ReceivingBankRoutingNo = $('#BranchID').val();
+            if (ReceivingBankRoutingNo == "") {
+                toastr.warning("Please Select A Branch");
+                return;
+            }
+
+            var EntryDesc = $('#EntryDesc').val();
+            var ReceivingBankAccountNo = $('#ReceivingBankAccountNo').val();
+            if (ReceivingBankAccountNo == "") {
+                toastr.warning("Receiving Bank Account Number Required");
+                return;
+            }
+            var CCYCD = $('#CCYCD').val();
+            var Amount = $('#Amount').val();
+            if (Amount == "") {
+                toastr.warning("Amount Required");
+                return;
+            }
+            var OurBankAccountNo = $('#OurBankAccountNo').val();
+
+            if (OurBankAccountNo == "") {
+                toastr.warning("Our Bank Account No Required");
+                return;
+            }
+
+            var PaymentInformation = $('#PaymentInformation').val();
+            var ReceiverName = $('#ReceiverName').val();
+            var ReceiverID = $('#ReceiverID').val();
+            var AccountType = $('#AccountTypeID').val();
+            if (AccountType == "") {
+                toastr.warning("Account Type Required");
+                return;
+            }
+
+            $.ajax({
+                url: "/Outward/CreateOutwaredManual",
+                type: "post",
+                data: {
+                    PaymentTypeID:PaymentTypeID, BankID: BankID, EntryDesc: EntryDesc, ReceivingBankAccountNo: ReceivingBankAccountNo,
+                    CCYCD: CCYCD, Amount: Amount, PaymentInformation: PaymentInformation,
+                    ReceiverName: ReceiverName, ReceiverID: ReceiverID, ReceivingBankRoutingNo: ReceivingBankRoutingNo,
+                    OurBankAccountNo: OurBankAccountNo, AccountType: AccountType
+                },
+                success: function (result) {
+                    if (result.IsSuccess) {
+                        toastr.success(result.Message);
+                        var delayInMilliseconds = 2000; //2 second
+                        setTimeout(function () {
+                            location.reload();
+                        }, delayInMilliseconds);
+                    }
+                    else {
+                        toastr.error(result.message);
+                    }
+                }
+            });
+        });
+
+        $('#Amount').keypress(function (event) {
+
+            onlyNumbersWithPrecision(event);
+
+        });
+    });
+
+    function limitText(field, maxChar) {
+        var ref = $(field),
+            val = ref.val();
+        if (val.length >= maxChar) {
+            ref.val(function () {
+                return val.substr(0, maxChar);
+            });
+        }
+    }
+
+    function LoadBankBranch(bankid) {
+        $.ajax({
+            url: '/Outward/LoadBankBranch',
+            type: 'Post',
+            data: JSON.stringify({ bankCD: bankid }),
+            dataType: 'json',
+            async: true,
+            contentType: 'application/json',
+            success: function (result) {
+                $('#BranchID').empty();
+                var mySelect = $('#BranchID');
+                mySelect.append(
+                    $('<option></option>').val('').html('---Select---')
+                );
+                $.each(result, function (val, text) {
+                    mySelect.append(
+                        $('<option></option>').val(text.RoutingNo).html(text.Name)
+                    );
+                });
+            },
+            error: function (result, textStatus, jqXHR) {
+
+            }
+        });
+    }
+
+    function onlyNumbersWithPrecision(myControl, evt) {
+        var e = event || evt;
+        var charCode = e.which || e.keyCode;
+        var controlValue = document.getElementById(myControl).value;
+        var maxLengthAfterPrecision = 2;
+        if (IsPrecisionExists(controlValue)) {
+            for (i = 0; i < controlValue.length; i++) {
+                if (controlValue.charAt(i) == ".") {
+                    if (controlValue.length - (i + 1) > maxLengthAfterPrecision - 1) {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            if (charCode != 46) {
+                if (controlValue.length > 9) {
+                    return false;
+                }
+            }
+        }
+
+        if (charCode == 46) {
+            if (IsPrecisionExists(document.getElementById(myControl).value)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    function number2text(value) {
+        var fraction = Math.round(frac(value) * 100);
+        var f_text = "";
+
+        if (fraction > 0) {
+            f_text = "And " + convert_number(fraction) + " Paisa";
+        }
+
+        var amnt=convert_number(value) + " " + f_text + " Only";
+
+        $('#AmountInWord').val(amnt);
+
+    }
+    function convert_number(number) {
+        if ((number < 0) || (number > 9999999999)) {
+            return "NUMBER OUT OF RANGE!";
+        }
+        var Gn = Math.floor(number / 10000000);  /* Crore */
+        number -= Gn * 10000000;
+        var kn = Math.floor(number / 100000);     /* lakhs */
+        number -= kn * 100000;
+        var Hn = Math.floor(number / 1000);      /* thousand */
+        number -= Hn * 1000;
+        var Dn = Math.floor(number / 100);       /* Tens (deca) */
+        number = number % 100;               /* Ones */
+        var tn = Math.floor(number / 10);
+        var one = Math.floor(number % 10);
+        var res = "";
+
+        if (Gn > 0) {
+            res += (convert_number(Gn) + " Crore");
+        }
+        if (kn > 0) {
+            res += (((res == "") ? "" : " ") +
+            convert_number(kn) + " Lac");
+        }
+        if (Hn > 0) {
+            res += (((res == "") ? "" : " ") +
+                convert_number(Hn) + " Thousand");
+        }
+
+        if (Dn) {
+            res += (((res == "") ? "" : " ") +
+                convert_number(Dn) + " Hundred");
+        }
+
+
+        var ones = Array("", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen");
+        var tens = Array("", "", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninty");
+
+        if (tn > 0 || one > 0) {
+            if (!(res == "")) {
+                res += " And ";
+            }
+            if (tn < 2) {
+                res += ones[tn * 10 + one];
+            }
+            else {
+
+                res += tens[tn];
+                if (one > 0) {
+                    res += ("-" + ones[one]);
+                }
+            }
+        }
+
+        if (res == "") {
+            res = "zero";
+        }
+        return res;
+    }
+    function frac(f) {
+        return f % 1;
+    }
+</script>
+@*@using (Html.BeginForm())*@
+<hr />
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        <label class="control-label col-md-2" for="EntryDesc">Payment Type</label>  
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DropDownList("PaymentTypeID", new SelectList(ViewBag.PaymentItemList, "Value", "Text"), new { @class = "select-css" })
+                    </div>
+                </div>
+            </div>                
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.EntryDesc, htmlAttributes: new { @class = "control-label col-md-2"})
+                    </div>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.EntryDesc, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max 10 Char.", @maxlength = "10" } })
+                        @Html.ValidationMessageFor(model => model.EntryDesc, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.ReceiverName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.ReceiverName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max 15 Char.", @maxlength = "15" } })
+                        @Html.ValidationMessageFor(model => model.ReceiverName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.ReceivingBankAccountNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.ReceivingBankAccountNo, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Max 17 Char.", @maxlength = "17" } })
+                        @Html.ValidationMessageFor(model => model.ReceivingBankAccountNo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.ReceiverID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.ReceiverID, new { htmlAttributes = new { @class = "form-control", @placeholder = "Max 22 Char.", @maxlength = "22" } })
+                        @Html.ValidationMessageFor(model => model.ReceiverID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.ReceivingBankName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DropDownList("BankID", new SelectList(ViewBag.BankList, "BankCD", "BankName"),"--Select Bank--", new { @class = "select-css" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.BranchName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-md-4">
+                        @*@Html.EditorFor(model => model.BranchName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })*@
+                        @Html.DropDownList("BranchID", new SelectList(ViewBag.BranchList, "BranchCD", "BranchName"),new { @class = "select-css" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.OurBankAccountNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.OurBankAccountNo, new { htmlAttributes = new { @class = "form-control", @type = "number", @placeholder = "Max 15 Char.", @maxlength = "15" } })
+                        @Html.ValidationMessageFor(model => model.OurBankAccountNo, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.CCY, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-md-4">
+                        @*@Html.EditorFor(model => model.CCY, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CCY, "", new { @class = "text-danger" })*@
+                        @Html.DropDownList("CCYCD", new SelectList(ViewBag.CCYList, "CCYCD", "CCYName"), new { @class = "select-css" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.Amount, new { @type = "number",@class = "form-control",@placeholder = "Type Amount",
+                       oncopy = "return false",
+                       onpaste = "return false",
+                       oncut = "return false",
+                       onkeyup = "number2text(this.value)"
+                   })
+                        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.AmountInWord, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextAreaFor(model => model.AmountInWord, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.AmountInWord, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.PaymentInformation, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextAreaFor(model => model.PaymentInformation, new { htmlAttributes = new { @class = "form-control"} })
+                        <p id="txtRemain"></p>
+                        @Html.ValidationMessageFor(model => model.PaymentInformation, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-2">
+                        @Html.LabelFor(model => model.AccountType, htmlAttributes: new { @class = "control-label col-md-2" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DropDownList("AccountTypeID", new SelectList(ViewBag.AccountTypeList, "Value", "Text"), new { @class = "select-css" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-primary list-panel" id="list-panel" style="min-height:240px; width:100%;">
+                <div class="panel-body" style="width:100%; height:100%;">
+                </div>
+            </div>
+            <h4>CBS Information</h4>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        @*<input class="btn btn-primary" type="submit" title="Procced" name="btnSelectRole">*@
+        <input type="button" value="Save" id="btnSave" class="btn btn-primary" />
+        <input type="button" value="Check CBS" id="btnCheckCBS" class="btn btn-info" />
+    </div>
+</div>
